@@ -3,69 +3,11 @@ from main_fkt import start_fkt
 
 start_fkt()
 
-
-
-# def ros_reader(filelist):
-#
-#     lines = []
-#     col_header1 = []
-#     col_header2 = []
-#     i = 0
-#     for file in filelist:
-#         with open(join(indir, file), 'r') as f:
-#             temp = []
-#             for line in f.readlines():
-#
-#                 if 'name' in line:
-#                     if i == 0:
-#                         col_header1.append(line.split()[4])
-#                     else:
-#                         temp.append(line.split()[4])
-#             i += 1
-#         if i >= 1:
-#             col_header2 = temp
-#
-#             print(col_header1)
-#             print(col_header2)
-#             print(col_header1 == col_header2)
+import pandas as pd
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# import pandas as pd
-# import re
-# import xlsxwriter
-#
-# BTL_FILE = r'../files_for_correcter/MSM65_wahrheit_wahrheit/MSM65_Stat01_4-1.btl'
-#
-# # from seabird.cnv import fCNV
-# #
-# # profile = fCNV(BTL_FILE)
-#
-# lines = []
-#
-# with open(BTL_FILE, encoding='latin-1') as fin:
-#     for l in fin.readlines():
-#         # skip header lines
-#         if l.startswith('#') or l.startswith('*'):
-#             continue
-#         lines.append(l.rstrip())
-#
-# print(lines[2])
 #
 # # the first line is the first line of column headers
 # col_headers = re.split(r' +', lines[0])[1:]
