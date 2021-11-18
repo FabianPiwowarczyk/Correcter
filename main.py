@@ -1,57 +1,63 @@
-from os.path import join
-from main_fkt import start_fkt
-
-start_fkt()
-
-import pandas as pd
+from appJar import gui
+from general_use_func import get_file_list, check_format
+import readers as rd
+import xavier as sf
 
 
+def add_dir(btn):
+    filename = app.directoryBox(title=None, dirName='/home/fabian/Schreibtisch/Arbeit/', parent=None)
+    app.setEntry('path', filename)
 
 
-#
-# # the first line is the first line of column headers
-# col_headers = re.split(r' +', lines[0])[1:]
-# print(len(col_headers))
-# col_headers.insert(2, re.split(r' +', lines[1])[2])
-# print(col_headers)
-#
-# # third line and on are the data lines
-# lines = lines[2:]
-#
-# # average values are every four lines
-# avg_lines = lines[::2]
-# # the lines with the time (and sddev values) are the ones immediately following the average value lines
-# time_lines = lines[1::2]
-#
-# # columns are 11 characters wide, except the first two
-# col_widths = [7, 15] + [11] * (len(col_headers) - 2)
-#
-#
-# def col_values_iter(line, col_widths):  # read fixed-width column values
-#     i = 0
-#     for w in col_widths:
-#         start = i
-#         end = i + w
-#         yield line[start:end].lstrip()
-#         i += w
-#
-#
-# def col_values(line, col_widths):
-#     return list(col_values_iter(line, col_widths))
-#
-#
-# # now assemble the rows of the dataframe
-# rows = []
-#
-# for al, tl in zip(avg_lines, time_lines):
-#     cvs = col_values(al, col_widths)
-#     print(len(cvs))
-#     time = col_values(tl, col_widths)[1]  # just use the first value
-#     cvs.insert(2, time)
-#     rows.append(cvs)
-#
-# print(rows)
-# df = pd.DataFrame(rows, columns=col_headers)
-# print(df.head())
-#
-# df.to_excel("output.xlsx", engine='xlsxwriter')
+def get_entry(bnt):
+
+    def get_options(bnt):
+        lt = app.getAllOptionBoxes()  # returns dict()
+        new_heads = [ele for ele in list(lt.values()) if ele is not None]
+        df_safe = df[new_heads]
+
+        sf.safe_df(df_safe)
+        app.hideSubWindow("one")
+
+        app.infoBox('Saved', 'Your output has been saved!', parent=None)
+
+    dir = app.getEntry('path')
+
+    file_list = get_file_list(dir)
+    form = check_format(file_list)
+    df = rd.reader(dir, file_list, form)
+
+    app.startSubWindow("one", modal=True)
+    app.setSticky("new")
+    app.setStretch("column")
+
+    for i, _ in enumerate(df.columns.tolist()):
+        app.addLabelOptionBox(i, ['- empty -'] + df.columns.tolist())
+
+    app.addButton('save', get_options, column=0, colspan=0, row=i + 1)
+
+    app.stopSubWindow()
+
+    launch('one')
+
+
+
+
+def launch(win):
+    app.showSubWindow(win)
+
+
+app = gui("File Converter")
+app.setSticky("new")
+app.setStretch("column")
+app.addEntry('path', 0, 0, 2)
+app.setEntryWidths('path', 40)
+app.setEntryDefault('path', 'path')
+app.addButton('Choose path', add_dir, 0, 2)
+app.setButtonWidths('Choose path', 15)
+app.addButton('get entry', get_entry, 1, 2)
+app.setButtonWidths('get entry', 15)
+
+app.go()
+
+# start_fkt()

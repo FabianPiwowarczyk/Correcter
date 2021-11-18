@@ -1,15 +1,16 @@
 import pandas as pd
-import xlsxwriter
 from os.path import join
 from general_use_func import check_col_header
 
 
 def reader(indir, filelist, form):
     if form == 'ros':
-        reader_ros(indir, filelist)
+        df = reader_ros(indir, filelist)
 
     if form == 'btl':
-        reader_btl(indir, filelist)
+        df = reader_btl(indir, filelist)
+
+    return df
 
 
 def reader_ros(indir, filelist):
@@ -19,7 +20,7 @@ def reader_ros(indir, filelist):
             if 'name' in line:
                 col_headers.append(line.split()[4])
 
-    check_col_header(indir, filelist, col_headers)
+#    check_col_header(indir, filelist, col_headers)
 
     lines = []
     for file in filelist:
@@ -27,7 +28,8 @@ def reader_ros(indir, filelist):
             lines = [l.rstrip().split() for l in fp.readlines() if not (l.startswith('#') or l.startswith('*'))]
 
     df = pd.DataFrame(lines, columns=col_headers)
-    df.to_excel("output.xlsx", engine='xlsxwriter')
+
+    return df
 
 
 def reader_btl(indir, filelist):
@@ -73,5 +75,4 @@ def reader_btl(indir, filelist):
     for key in filelist[1:]:
         df = df.append(pd.DataFrame(data[key][1], columns=data[key][0]), ignore_index=True)
 
-    print(df.head(5))
-    df.to_excel("output.xlsx", engine='xlsxwriter')
+    return df
