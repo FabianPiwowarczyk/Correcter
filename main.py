@@ -101,7 +101,10 @@ def get_entry(bnt):
                 for i, _ in enumerate(df.columns.tolist()):  # add option box for every header in data frame
                     app.addLabelOptionBox(i, ['empty'] + df.columns.tolist())
 
-                config = get_config()  # gets last used config for output format
+                try:
+                    config = get_config()  # gets last used config for output format
+                except:
+                    app.infoBox('config', 'No config.json can be found.')
                 for ii, ele in enumerate(config):  # add config in option boxes
                     if ele in df.columns.tolist():  # only adds header from config that exist in the data frame
                         app.setOptionBox(ii, ele)
