@@ -25,6 +25,7 @@ def get_file_list(dir):
     """
     onlyfiles = [f for f in listdir(dir) if isfile(join(dir, f))]
     onlyfiles.sort()
+    onlyfiles = [f for f in onlyfiles if '.btl' in f or '.ros' in f]
     return onlyfiles
 
 
@@ -137,7 +138,7 @@ def save_config(l):
     :return:
         save file with config
     """
-    with open("config.json", "w") as fp:
+    with open("./config.json", "w") as fp:
         json.dump(l, fp)
 
 
@@ -148,7 +149,7 @@ def get_config():
     :return:
         list of headers
     """
-    with open("config.json", "r") as fp:
+    with open("./config.json", "r") as fp:
         config = json.load(fp)
     return config
 

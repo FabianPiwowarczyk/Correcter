@@ -13,7 +13,7 @@ import pandas as pd
 from os.path import join
 
 # program intern functions
-from general_use_func import get_frmt, get_file_values, get_btl_heads
+from code.general_use_func import get_frmt, get_file_values, get_btl_heads
 
 
 def reader(indir, filelist, form, file_h):
