@@ -52,9 +52,9 @@ def get_entry(bnt):
     :param bnt:
         defines button function
     :return:
-        opens subwindow to select data header in file names by user input
+        opens sub-window to select data header in file names by user input
     """
-    app.destroyAllSubWindows()  # destroying all subwindows to guarantee functionality after canceling mid process
+    app.destroyAllSubWindows()  # destroying all sub-windows to guarantee functionality after canceling mid-process
 
     def get_header(bnt):
         """
@@ -63,7 +63,7 @@ def get_entry(bnt):
         :param bnt:
             defines button function
         :return:
-            opens subwindow to select format for the output .xlsx file
+            opens sub-window to select format for the output .xlsx file
         """
 
         def get_options(bnt):
